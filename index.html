@@ -6,19 +6,42 @@
     <title>Проект: Лоскутное шитье</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background-color: #fcfaf7; color: #3d2f26; min-height: 100vh; display: flex; flex-direction: column; }
+        body { background-color: #fdfbff; color: #4a3d52; min-height: 100vh; display: flex; flex-direction: column; }
 
-        header { background: linear-gradient(135deg, #704214, #b87333); color: white; text-align: center; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        header {
+            background: linear-gradient(135deg, #f7c8d8, #b8d8f0, #b8e6cf);
+            color: #4a3d52;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        }
         header h1 { font-size: 22px; margin-bottom: 5px; }
-        header p { font-size: 14px; opacity: 0.9; }
+        header p { font-size: 14px; opacity: 0.85; }
 
         .main-container { flex: 1; max-width: 800px; width: 100%; margin: 15px auto; padding: 15px; }
 
-        .content-section { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: none; min-height: 300px; }
+        .content-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            display: none;
+            min-height: 300px;
+            border-top: 6px solid transparent;
+        }
         .content-section.active { display: block; }
 
-        h2 { color: #704214; margin-bottom: 12px; border-bottom: 2px solid #f3ebe1; padding-bottom: 6px; font-size: 18px; }
-        h3 { color: #704214; margin-bottom: 8px; font-size: 16px; }
+        /* Цвета для каждой вкладки */
+        #sec1 { border-top-color: #f7c8d8; }
+        #sec2 { border-top-color: #b8d8f0; }
+        #sec3 { border-top-color: #b8e6cf; }
+
+        #sec1 h2 { color: #d97aa0; border-bottom-color: #fbe4ec; }
+        #sec2 h2 { color: #5a9bd4; border-bottom-color: #e0eefb; }
+        #sec3 h2 { color: #5cbf94; border-bottom-color: #e0f5ec; }
+
+        h2 { margin-bottom: 12px; border-bottom: 2px solid #f3ebe1; padding-bottom: 6px; font-size: 18px; }
+        h3 { color: #6b5a78; margin-bottom: 8px; font-size: 16px; }
         p { font-size: 14px; line-height: 1.5; margin-bottom: 10px; text-align: justify; }
         ul { margin-left: 20px; margin-bottom: 10px; font-size: 14px; }
         li { margin-bottom: 5px; }
@@ -29,16 +52,47 @@
         .img-part { flex: 0.8; display: flex; justify-content: center; align-items: flex-start; }
         .img-part img { width: 100%; max-width: 280px; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
-        .sub-menu { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; background: #f3ebe1; padding: 6px; border-radius: 8px; }
-        .sub-btn { flex: 1; min-width: 90px; background: white; border: 1px solid #dcd1c4; padding: 6px 4px; font-size: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; text-align: center; color: #5a3d28; }
-        .sub-btn.active { background: #b87333; color: white; border-color: #b87333; }
-        .sub-content { display: none; background: #faf8f5; padding: 12px; border-radius: 8px; border-left: 4px solid #b87333; margin-bottom: 15px; }
+        /* Подразделы */
+        .sub-menu { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; background: #f0faf5; padding: 6px; border-radius: 8px; }
+        .sub-btn {
+            flex: 1; min-width: 90px;
+            background: white;
+            border: 1px solid #cdeee0;
+            padding: 6px 4px;
+            font-size: 12px; font-weight: bold;
+            border-radius: 6px; cursor: pointer; text-align: center;
+            color: #4a7a65;
+            transition: 0.2s;
+        }
+        .sub-btn.active { background: #8fd9b6; color: white; border-color: #8fd9b6; }
+
+        .sub-content {
+            display: none;
+            background: #f6fdf9;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #8fd9b6;
+            margin-bottom: 15px;
+        }
         .sub-content.active { display: block; }
 
-        .bottom-nav { background: white; padding: 12px; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); position: sticky; bottom: 0; width: 100%; }
+        /* Нижняя навигация */
+        .bottom-nav { background: white; padding: 12px; box-shadow: 0 -4px 10px rgba(0,0,0,0.06); position: sticky; bottom: 0; width: 100%; }
         .btn-grid { max-width: 500px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .main-btn { background: #f3ebe1; border: none; color: #5a3d28; padding: 10px 5px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; text-align: center; transition: 0.2s; }
-        .main-btn.active { background: #704214; color: white; }
+        .main-btn {
+            background: #f4f4f8;
+            border: none;
+            color: #6b5a78;
+            padding: 10px 5px;
+            font-size: 13px; font-weight: bold;
+            border-radius: 8px; cursor: pointer; text-align: center;
+            transition: 0.2s;
+        }
+
+        /* Каждая кнопка — свой пастельный цвет в активном состоянии */
+        .main-btn:nth-child(1).active { background: #f7c8d8; color: #7a3a55; }
+        .main-btn:nth-child(2).active { background: #b8d8f0; color: #2f5f8f; }
+        .main-btn:nth-child(3).active { background: #b8e6cf; color: #2f7a5a; }
 
         @media (min-width: 600px) {
             .layout-wrapper { flex-direction: row; }
