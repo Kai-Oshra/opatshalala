@@ -7,24 +7,24 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
         body { background-color: #fcfaf7; color: #3d2f26; min-height: 100vh; display: flex; flex-direction: column; }
-        
+
         header { background: linear-gradient(135deg, #704214, #b87333); color: white; text-align: center; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         header h1 { font-size: 22px; margin-bottom: 5px; }
         header p { font-size: 14px; opacity: 0.9; }
 
         .main-container { flex: 1; max-width: 800px; width: 100%; margin: 15px auto; padding: 15px; }
-        
+
         .content-section { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: none; min-height: 300px; }
         .content-section.active { display: block; }
-        
+
         h2 { color: #704214; margin-bottom: 12px; border-bottom: 2px solid #f3ebe1; padding-bottom: 6px; font-size: 18px; }
+        h3 { color: #704214; margin-bottom: 8px; font-size: 16px; }
         p { font-size: 14px; line-height: 1.5; margin-bottom: 10px; text-align: justify; }
         ul { margin-left: 20px; margin-bottom: 10px; font-size: 14px; }
         li { margin-bottom: 5px; }
 
         .layout-wrapper { display: flex; flex-direction: column; gap: 15px; }
-        min-width: 600px { .layout-wrapper { flex-direction: row; } }
-        
+
         .text-part { flex: 1.2; }
         .img-part { flex: 0.8; display: flex; justify-content: center; align-items: flex-start; }
         .img-part img { width: 100%; max-width: 280px; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
@@ -44,6 +44,11 @@
         .btn-grid { max-width: 500px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .main-btn { background: #f3ebe1; border: none; color: #5a3d28; padding: 10px 5px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; text-align: center; transition: 0.2s; }
         .main-btn.active { background: #704214; color: white; }
+
+        /* Адаптив: горизонтальное расположение текста и картинки на широких экранах */
+        @media (min-width: 600px) {
+            .layout-wrapper { flex-direction: row; }
+        }
     </style>
 </head>
 <body>
@@ -66,7 +71,6 @@
                     <p><strong>Суть темы:</strong> Простые базовые блоки из полос или квадратов — это понятная новичку <strong>«наука»</strong>. А сложные узоры и аппликации поверх них — творческие <strong>«идеи»</strong> для развития мастерства.</p>
                 </div>
                 <div class="img-part">
-                    <!-- Ваша фотография встроена напрямую -->
                     <img src="https://squarespace-cdn.com" alt="Мамедова Шалала">
                 </div>
             </div>
@@ -96,7 +100,6 @@
         <div id="sec3" class="content-section">
             <h2>3. Технологии лоскутного шитья</h2>
 
-            <!-- Внутреннее меню подразделов -->
             <div class="sub-menu">
                 <button class="sub-btn active" onclick="showSub('sub1', this)">Колодец</button>
                 <button class="sub-btn" onclick="showSub('sub2', this)">Крейзи</button>
@@ -106,7 +109,6 @@
                 <button class="sub-btn" onclick="showSub('sub6', this)">Аппликация</button>
             </div>
 
-            <!-- Контент подразделов -->
             <div id="sub1" class="sub-content active">
                 <div class="layout-wrapper">
                     <div class="text-part">
@@ -114,7 +116,8 @@
                         <p>Сборка цветных полос-«брёвнышек» по кругу или спирали вокруг центрального квадрата. Сюда же относится геометрический блок «Кристалл».</p>
                     </div>
                     <div class="img-part"><img src="https://unsplash.com" alt="Колодец"></div>
-                </div></div>
+                </div>
+            </div>
 
             <div id="sub2" class="sub-content">
                 <div class="layout-wrapper">
@@ -142,3 +145,67 @@
                         <h3>Французская роза</h3>
                         <p>Объёмный цветок в стиле йо-йо из округлых лоскутов, наложенных друг на друга по принципу пирамиды.</p>
                     </div>
+                    <div class="img-part"><img src="https://unsplash.com" alt="Роза йо-йо"></div>
+                </div>
+            </div>
+
+            <div id="sub5" class="sub-content">
+                <div class="layout-wrapper">
+                    <div class="text-part">
+                        <h3>Мэшвок</h3>
+                        <p>Техника сшивания лоскутов в виде сетки (mesh). Позволяет создавать объёмные и рельефные узоры за счёт чередования ткани и фона.</p>
+                    </div>
+                    <div class="img-part"><img src="https://unsplash.com" alt="Мэшвок"></div>
+                </div>
+            </div>
+
+            <div id="sub6" class="sub-content">
+                <div class="layout-wrapper">
+                    <div class="text-part">
+                        <h3>Аппликация</h3>
+                        <p>Нашивание вырезанных фигур на основу. Может быть плоской и объёмной, часто сочетается с другими техниками пэчворка.</p>
+                    </div>
+                    <div class="img-part"><img src="https://unsplash.com" alt="Аппликация"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Нижняя навигация -->
+    <div class="bottom-nav">
+        <div class="btn-grid">
+            <button class="main-btn active" onclick="showSection('sec1', this)">Автор и идея</button>
+            <button class="main-btn" onclick="showSection('sec2', this)">История</button>
+            <button class="main-btn" onclick="showSection('sec3', this)">Техники</button>
+        </div>
+    </div>
+
+    <script>
+        function showSection(id, btn) {
+            document.querySelectorAll('.content-section').forEach(function(s) {
+                s.classList.remove('active');
+            });
+            document.getElementById(id).classList.add('active');
+
+            document.querySelectorAll('.main-btn').forEach(function(b) {
+                b.classList.remove('active');
+            });
+            btn.classList.add('active');
+        }
+
+        function showSub(id, btn) {
+            var parent = btn.closest('.content-section');
+            parent.querySelectorAll('.sub-content').forEach(function(s) {
+                s.classList.remove('active');
+            });
+            parent.querySelectorAll('.sub-btn').forEach(function(b) {
+                b.classList.remove('active');
+            });
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
