@@ -1,250 +1,591 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Проект: Лоскутное шитье</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-        body { background-color: #fdfbff; color: #4a3d52; min-height: 100vh; display: flex; flex-direction: column; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проект: Лоскутное шитье</title>
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body { background-color: #fdfbff; color: #4a3d52; min-height: 100vh; display: flex; flex-direction: column; }
 
-        header {
-            background: linear-gradient(135deg, #f7c8d8, #b8d8f0, #b8e6cf);
-            color: #4a3d52;
-            text-align: center;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    header {
+        background: linear-gradient(135deg, #f7c8d8, #b8d8f0, #b8e6cf);
+        color: #4a3d52;
+        text-align: center;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    }
+    header h1 { font-size: 22px; margin-bottom: 5px; }
+    header p { font-size: 14px; opacity: 0.85; }
+
+    .main-container { flex: 1; max-width: 800px; width: 100%; margin: 15px auto; padding: 15px 15px 90px; }
+
+    .content-section {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        display: none;
+        min-height: 300px;
+        border-top: 6px solid transparent;
+    }
+    .content-section.active { display: block; }
+
+    #sec1 { border-top-color: #f7c8d8; }
+    #sec2 { border-top-color: #b8d8f0; }
+    #sec3 { border-top-color: #b8e6cf; }
+
+    #sec1 h2 { color: #d97aa0; border-bottom-color: #fbe4ec; }
+    #sec2 h2 { color: #5a9bd4; border-bottom-color: #e0eefb; }
+    #sec3 h2 { color: #5cbf94; border-bottom-color: #e0f5ec; }
+
+    h2 { margin-bottom: 12px; border-bottom: 2px solid #f3ebe1; padding-bottom: 6px; font-size: 18px; }
+    h3 { color: #6b5a78; margin-bottom: 8px; font-size: 16px; }
+    p { font-size: 14px; line-height: 1.5; margin-bottom: 10px; text-align: justify; }
+    ul { margin-left: 20px; margin-bottom: 10px; font-size: 14px; }
+    li { margin-bottom: 5px; }
+
+    .layout-wrapper { display: flex; flex-direction: column; gap: 15px; }
+    .img-part { display: flex; justify-content: center; align-items: flex-start; }
+    .img-part img { width: 100%; max-width: 320px; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .text-part { flex: 1; }
+
+    .sub-menu { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; background: #f0faf5; padding: 6px; border-radius: 8px; }
+    .sub-btn {
+        flex: 1; min-width: 90px;
+        background: white;
+        border: 1px solid #cdeee0;
+        padding: 6px 4px;
+        font-size: 12px; font-weight: bold;
+        border-radius: 6px; cursor: pointer; text-align: center;
+        color: #4a7a65;
+        transition: 0.2s;
+    }
+    .sub-btn.active { background: #8fd9b6; color: white; border-color: #8fd9b6; }
+
+    .sub-content {
+        display: none;
+        background: #f6fdf9;
+        padding: 12px;
+        border-radius: 8px;
+        border-left: 4px solid #8fd9b6;
+        margin-bottom: 15px;
+    }
+    .sub-content.active { display: block; }
+
+    /* ---------- НИЖНЯЯ НАВИГАЦИЯ ---------- */
+    .bottom-nav { background: white; padding: 12px; box-shadow: 0 -4px 10px rgba(0,0,0,0.06); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; }
+    .btn-grid { max-width: 500px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .main-btn {
+        background: #f4f4f8;
+        border: none;
+        color: #6b5a78;
+        padding: 10px 5px;
+        font-size: 13px; font-weight: bold;
+        border-radius: 8px; cursor: pointer; text-align: center;
+        transition: 0.2s;
+    }
+    .main-btn:nth-child(1).active { background: #f7c8d8; color: #7a3a55; }
+    .main-btn:nth-child(2).active { background: #b8d8f0; color: #2f5f8f; }
+    .main-btn:nth-child(3).active { background: #b8e6cf; color: #2f7a5a; }
+
+    /* ---------- ОБЩИЕ БЛОКИ ДЛЯ ВИДЖЕТОВ ---------- */
+    .widget {
+        margin-top: 25px;
+        background: #ffffff;
+        border: 2px solid #cdeee0;
+        border-radius: 12px;
+        padding: 18px;
+    }
+    .widget h3 { margin-top: 0; color: #4a7a65; font-size: 16px; margin-bottom: 8px; }
+    .widget .desc { font-size: 13px; color: #6b5a78; margin-bottom: 12px; }
+
+    /* ---------- ИГРА ---------- */
+    .game-layout { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around; align-items: center; }
+    .game-block { text-align: center; }
+    .game-block > p { font-size: 13px; color: #6b5a78; margin-bottom: 8px; text-align: center; }
+    .preview-grid, .game-board {
+        display: grid;
+        grid-template-columns: repeat(2, 80px);
+        grid-template-rows: repeat(2, 80px);
+        gap: 4px;
+        background: #eceff1;
+        padding: 6px;
+        border-radius: 8px;
+        margin: 0 auto;
+    }
+    .game-board { cursor: pointer; }
+    .fabric-piece { border-radius: 4px; }
+    .game-board .fabric-piece.selected { outline: 3px solid #e53935; outline-offset: -3px; }
+    .p-red { background: radial-gradient(circle, #ef5350 25%, transparent 26%), #b71c1c; background-size: 12px 12px; }
+    .p-blue { background: linear-gradient(45deg, #64b5f6 25%, #1565c0 25%, #1565c0 50%, #64b5f6 50%); background-size: 14px 14px; }
+    .p-green { background: #81c784; background-image: linear-gradient(to right, #2e7d32 1px, transparent 1px); background-size: 8px 8px; }
+    .p-yellow { background: radial-gradient(#fff176 15%, transparent 16%), #f9a825; background-size: 8px 8px; }
+
+    .win-message {
+        margin-top: 12px;
+        background: #d4f5e4;
+        color: #2f7a5a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .widget-btn {
+        display: inline-block;
+        margin-top: 12px;
+        background: #8fd9b6;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .widget-btn:hover { background: #6bc2a0; }
+
+    /* ---------- ФОРМА ---------- */
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 13px; color: #4a7a65; }
+    .form-group input[type="text"],
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cdeee0;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: inherit;
+        resize: vertical;
+    }
+    .form-group input[type="file"] {
+        display: block;
+        margin-top: 5px;
+        font-size: 13px;
+    }
+    .file-name-preview { font-size: 12px; color: #888; margin-left: 8px; }
+
+    .success-message {
+        margin-top: 15px;
+        background: #d4f5e4;
+        color: #2f7a5a;
+        border-radius: 8px;
+        padding: 14px;
+        font-size: 14px;
+    }
+
+    /* ---------- КАЛЬКУЛЯТОР ---------- */
+    .calc-form label { display: block; font-weight: bold; font-size: 13px; margin-bottom: 5px; color: #4a7a65; }
+    .calc-form select,
+    .calc-form input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cdeee0;
+        border-radius: 8px;
+        font-size: 14px;
+        margin-bottom: 12px;
+        font-family: inherit;
+    }
+    .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 12px; }
+    .result-item {
+        background: #f6fdf9;
+        border-left: 4px solid #8fd9b6;
+        border-radius: 8px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .result-icon { font-size: 20px; }
+    .result-value { font-size: 20px; font-weight: bold; color: #2f7a5a; }
+    .result-label { font-size: 12px; color: #6b5a78; }
+
+    @media (max-width: 480px) {
+        .preview-grid, .game-board {
+            grid-template-columns: repeat(2, 65px);
+            grid-template-rows: repeat(2, 65px);
         }
-        header h1 { font-size: 22px; margin-bottom: 5px; }
-        header p { font-size: 14px; opacity: 0.85; }
-
-        .main-container { flex: 1; max-width: 800px; width: 100%; margin: 15px auto; padding: 15px; }
-
-        .content-section {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            display: none;
-            min-height: 300px;
-            border-top: 6px solid transparent;
-        }
-        .content-section.active { display: block; }
-
-        #sec1 { border-top-color: #f7c8d8; }
-        #sec2 { border-top-color: #b8d8f0; }
-        #sec3 { border-top-color: #b8e6cf; }
-
-        #sec1 h2 { color: #d97aa0; border-bottom-color: #fbe4ec; }
-        #sec2 h2 { color: #5a9bd4; border-bottom-color: #e0eefb; }
-        #sec3 h2 { color: #5cbf94; border-bottom-color: #e0f5ec; }
-
-        h2 { margin-bottom: 12px; border-bottom: 2px solid #f3ebe1; padding-bottom: 6px; font-size: 18px; }
-        h3 { color: #6b5a78; margin-bottom: 8px; font-size: 16px; }
-        p { font-size: 14px; line-height: 1.5; margin-bottom: 10px; text-align: justify; }
-        ul { margin-left: 20px; margin-bottom: 10px; font-size: 14px; }
-        li { margin-bottom: 5px; }
-
-        /* Картинка над текстом */
-        .layout-wrapper { display: flex; flex-direction: column; gap: 15px; }
-
-        .img-part { display: flex; justify-content: center; align-items: flex-start; }
-        .img-part img { width: 100%; max-width: 320px; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-
-        .text-part { flex: 1; }
-
-        .sub-menu { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; background: #f0faf5; padding: 6px; border-radius: 8px; }
-        .sub-btn {
-            flex: 1; min-width: 90px;
-            background: white;
-            border: 1px solid #cdeee0;
-            padding: 6px 4px;
-            font-size: 12px; font-weight: bold;
-            border-radius: 6px; cursor: pointer; text-align: center;
-            color: #4a7a65;
-            transition: 0.2s;
-        }
-        .sub-btn.active { background: #8fd9b6; color: white; border-color: #8fd9b6; }
-
-        .sub-content {
-            display: none;
-            background: #f6fdf9;
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 4px solid #8fd9b6;
-            margin-bottom: 15px;
-        }
-        .sub-content.active { display: block; }
-
-        .bottom-nav { background: white; padding: 12px; box-shadow: 0 -4px 10px rgba(0,0,0,0.06); position: sticky; bottom: 0; width: 100%; }
-        .btn-grid { max-width: 500px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .main-btn {
-            background: #f4f4f8;
-            border: none;
-            color: #6b5a78;
-            padding: 10px 5px;
-            font-size: 13px; font-weight: bold;
-            border-radius: 8px; cursor: pointer; text-align: center;
-            transition: 0.2s;
-        }
-
-        .main-btn:nth-child(1).active { background: #f7c8d8; color: #7a3a55; }
-        .main-btn:nth-child(2).active { background: #b8d8f0; color: #2f5f8f; }
-        .main-btn:nth-child(3).active { background: #b8e6cf; color: #2f7a5a; }
-    </style>
+    }
+</style>
 </head>
 <body>
 
-    <header>
-        <h1>Пэчворк: наука для старта, идеи для мастерства</h1>
-        <p>Выполнила: Мамедова Шалала, 8Ж класс. Руководитель: Фомичева О. А.</p>
-    </header>
+<header>
+    <h1>Пэчворк: наука для старта, идеи для мастерства</h1>
+    <p>Выполнила: Мамедова Шалала, 8В класс. Руководитель: Фомичева О. А.</p>
+</header>
 
-    <div class="main-container">
+<div class="main-container">
 
-        <!-- РАЗДЕЛ 1 -->
-        <div id="sec1" class="content-section active">
-            <h2>1. Автор и идея проекта</h2>
-            <div class="layout-wrapper">
-                <div class="img-part">
-                    <img src="images/foto1.jpg" alt="Мамедова Шалала">
-                </div>
-                <div class="text-part">
-                    <p><strong>Автор проекта:</strong> Меня зовут <strong>Мамедова Шалала</strong>, я ученица 8Ж класса. Данный сайт представляет мой творческий проект по технологии.</p>
-                    <p><strong>Как родился проект:</strong> К нам в школьной мастерской обратилась учитель технологии <strong>Фомичева О. А.</strong> После уроков скопилось много обрезков тканей, и мне захотелось решить эту проблему экологично — дать лоскуткам вторую жизнь.</p>
-                    <p><strong>Социальная цель и итог:</strong> В нашей школе принято дарить подарки мамам на праздник ко Дню матери. За два месяца я <strong>успешно сшила комплект из 70 уникальных прихваток-сувениров</strong> из остатков тканей! Мы вручим их родителям на празднике.</p>
-                </div>
+    <!-- ===================== РАЗДЕЛ 1 ===================== -->
+    <div id="sec1" class="content-section active">
+        <h2>1. Автор и идея проекта</h2>
+        <div class="layout-wrapper">
+            <div class="img-part">
+                <img src="images/foto1.jpg" alt="Мамедова Шалала">
+            </div>
+            <div class="text-part">
+                <p><strong>Автор проекта:</strong> Меня зовут <strong>Мамедова Шалала</strong>, я ученица 8В класса. Данный сайт представляет мой творческий проект по технологии.</p>
+                <p><strong>Как родился проект:</strong> К нам в школьной мастерской обратилась учитель технологии <strong>Фомичева О. А.</strong> После уроков скопилось много обрезков тканей, и мне захотелось решить эту проблему экологично — дать лоскуткам вторую жизнь.</p>
+                <p><strong>Социальная цель и итог:</strong> В нашей школе принято дарить подарки мамам на праздник ко Дню матери. За два месяца я <strong>успешно сшила комплект из 70 уникальных прихваток-сувениров</strong> из остатков тканей! Мы вручим их родителям на празднике.</p>
             </div>
         </div>
 
-        <!-- РАЗДЕЛ 2 -->
-        <div id="sec2" class="content-section">
-            <h2>2. История пэчворка</h2>
-            <div class="layout-wrapper">
-                <div class="img-part">
-                    <img src="images/foto2.jpg" alt="История лоскутного шитья">
+        <!-- БЛОК: ФОРМА «ПРИСОЕДИНИТЬСЯ» -->
+        <div class="widget">
+            <h3>🌍 Присоединяйтесь к нашей эко-мастерской!</h3>
+            <p class="desc">Вы тоже шьёте из лоскутков или хотите открыть такую мастерскую в своей школе? Поделитесь своей историей и фото работы, и мы добавим вас на нашу интерактивную платформу!</p>
+
+            <form id="join-form">
+                <div class="form-group">
+                    <label for="user-name">Ваше имя и фамилия:</label>
+                    <input type="text" id="user-name" required placeholder="Например: Шалала Мамедова">
                 </div>
-                <div class="text-part">
-                    <p>Изначально лоскутное шитье во всех странах рождалось из бережливости и дефицита тканей, но со временем стало искусством:</p>
-                    <ul>
-                        <li><strong>Англия (XVI–XVII вв.):</strong> Из-за запрета на ввоз тканей ситец стал очень дорогим. Хозяйки бережно собирали мельчайшие обрезки для создания новых вещей.</li>
-                        <li><strong>Япония (XIX в.):</strong> Стиль «японский шёлк» (расшитый квилт). Изделия служили декоративными панно и украшались бахромой, кистями и кружевом.</li>
-                        <li><strong>Азербайджан:</strong> Самобытная техника <strong>«Гурама»</strong> (соединенный). Из кусков неправильной формы, подобно мозаике, сшивались коврики (гурма чий) и покрывала.</li>
-                        <li><strong>Россия (XVIII в.):</strong> Массовое шитье одеял из фабричного ситца. Известно, что лоскутное одеяло в подарок мужу сшила даже жена Петра I, Екатерина.</li>
-                    </ul>
+                <div class="form-group">
+                    <label for="user-school">Школа, класс и город:</label>
+                    <input type="text" id="user-school" required placeholder="Например: Школа №1, 8Б класс, Москва">
                 </div>
-            </div>
-        </div>
-
-        <!-- РАЗДЕЛ 3 -->
-        <div id="sec3" class="content-section">
-            <h2>3. Технологии лоскутного шитья</h2>
-
-            <div class="sub-menu">
-                <button class="sub-btn active" onclick="showSub('sub1', this)">Колодец</button>
-                <button class="sub-btn" onclick="showSub('sub2', this)">Крейзи</button>
-                <button class="sub-btn" onclick="showSub('sub3', this)">Пицца</button>
-                <button class="sub-btn" onclick="showSub('sub4', this)">Роза йо-йо</button>
-                <button class="sub-btn" onclick="showSub('sub5', this)">Мэшвок</button>
-                <button class="sub-btn" onclick="showSub('sub6', this)">Аппликация</button>
-            </div>
-
-            <div id="sub1" class="sub-content active">
-                <div class="layout-wrapper">
-                    <div class="img-part"><img src="images/foto3.jpg" alt="Колодец"></div>
-                    <div class="text-part">
-                        <h3>Техника «Колодец» («Бревенчатая изба»)</h3>
-                        <p>Сборка цветных полос-«брёвнышек» по кругу или спирали вокруг центрального квадрата. Сюда же относится геометрический блок «Кристалл».</p>
-                    </div>
+                <div class="form-group">
+                    <label for="user-message">Расскажите о вашей работе или идее:</label>
+                    <textarea id="user-message" rows="4" required placeholder="Например: Мы сшили 10 эко-сумок из старых джинсов..."></textarea>
                 </div>
-            </div>
-
-            <div id="sub2" class="sub-content">
-                <div class="layout-wrapper">
-                    <div class="img-part"><img src="images/foto4.jpg" alt="Крейзи"></div>
-                    <div class="text-part">
-                        <h3>Крейзи-пэчворк</h3>
-                        <p>Хаотичное сшивание мелких лоскутов неправильной формы. Пример — «Крейзи-роза», где элементы настрачиваются по спирали от центра.</p>
-                    </div>
+                <div class="form-group">
+                    <label for="user-file">📸 Загрузить фото вашего изделия</label>
+                    <input type="file" id="user-file" accept="image/*" required>
+                    <span id="file-name-preview" class="file-name-preview">Файл не выбран</span>
                 </div>
-            </div>
+                <button type="submit" class="widget-btn">Отправить работу на модерацию</button>
+            </form>
 
-            <div id="sub3" class="sub-content">
-                <div class="layout-wrapper">
-                    <div class="img-part"><img src="images/foto5.jpg" alt="Пицца"></div>
-                    <div class="text-part">
-                        <h3>Техника «Пицца»</h3>
-                        <p>Мелкие кривые обрезки хаотично выкладываются на основу, накрываются прозрачной тканью и скрепляются декоративными строчками.</p>
-                    </div>
-                </div>
+            <div id="form-success-message" class="success-message" style="display: none;">
+                🚀 <strong>Ваша заявка успешно принята!</strong> Спасибо за вклад в сохранение планеты. После проверки куратором проекта (О. А. Фомичевой) ваша работа появится в нашей интерактивной галерее.
             </div>
-
-            <div id="sub4" class="sub-content">
-                <div class="layout-wrapper">
-                    <div class="img-part"><img src="images/foto6.jpg" alt="Роза йо-йо"></div>
-                    <div class="text-part">
-                        <h3>Французская роза</h3>
-                        <p>Объёмный цветок в стиле йо-йо из округлых лоскутов, наложенных друг на друга по принципу пирамиды.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="sub5" class="sub-content">
-                <div class="layout-wrapper">
-                    <div class="img-part"><img src="images/foto7.jpg" alt="Мэшвок"></div>
-                    <div class="text-part">
-                        <h3>Мэшвок</h3>
-                        <p>Техника сшивания лоскутов в виде сетки (mesh). Позволяет создавать объёмные и рельефные узоры за счёт чередования ткани и фона.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="sub6" class="sub-content">
-                <div class="layout-wrapper">
-                    <div class="img-part"><img src="images/foto8.jpg" alt="Аппликация"></div>
-                    <div class="text-part">
-                        <h3>Аппликация</h3>
-                        <p>Нашивание вырезанных фигур на основу. Может быть плоской и объёмной, часто сочетается с другими техниками пэчворка.</p>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <div class="btn-grid">
-            <button class="main-btn active" onclick="showSection('sec1', this)">Автор и идея</button>
-            <button class="main-btn" onclick="showSection('sec2', this)">История</button>
-            <button class="main-btn" onclick="showSection('sec3', this)">Техники</button>
+    <!-- ===================== РАЗДЕЛ 2 ===================== -->
+    <div id="sec2" class="content-section">
+        <h2>2. История пэчворка</h2>
+        <div class="layout-wrapper">
+            <div class="img-part">
+                <img src="images/foto2.jpg" alt="История лоскутного шитья">
+            </div>
+            <div class="text-part">
+                <p>Изначально лоскутное шитье во всех странах рождалось из бережливости и дефицита тканей, но со временем стало искусством:</p>
+                <ul>
+                    <li><strong>Англия (XVI–XVII вв.):</strong> Из-за запрета на ввоз тканей ситец стал очень дорогим. Хозяйки бережно собирали мельчайшие обрезки для создания новых вещей.</li>
+                    <li><strong>Япония (XIX в.):</strong> Стиль «японский шёлк» (расшитый квилт). Изделия служили декоративными панно и украшались бахромой, кистями и кружевом.</li>
+                    <li><strong>Азербайджан:</strong> Самобытная техника <strong>«Гурама»</strong> (соединенный). Из кусков неправильной формы, подобно мозаике, сшивались коврики (гурма чий) и покрывала.</li>
+                    <li><strong>Россия (XVIII в.):</strong> Массовое шитье одеял из фабричного ситца. Известно, что лоскутное одеяло в подарок мужу сшила даже жена Петра I, Екатерина.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- БЛОК: КАЛЬКУЛЯТОР -->
+        <div class="widget">
+            <h3>🌱 Калькулятор эко-эффекта апсайклинга</h3>
+            <p class="desc">Узнайте, сколько пользы планете принесёт переработка ваших старых вещей в эко-прихватки!</p>
+
+            <div class="calc-form">
+                <label for="clothing-type">Выберите тип вещи:</label>
+                <select id="clothing-type">
+                    <option value="200" selected>Футболка / Рубашка (~200 г)</option>
+                    <option value="400">Толстовка / Свитшот (~400 г)</option>
+                    <option value="600">Джинсы / Брюки (~600 г)</option>
+                    <option value="150">Платье / Юбка (~150 г)</option>
+                    <option value="1000">Постельное белье / Простыня (~1000 г)</option>
+                </select>
+
+                <label for="clothing-count">Количество вещей (шт):</label>
+                <input type="number" id="clothing-count" value="1" min="1" max="100">
+
+                <button id="calculate-btn" class="widget-btn">Рассчитать эффект</button>
+            </div>
+
+            <div id="calc-results" style="display: none;">
+                <h4 style="margin-top: 15px; color:#4a7a65;">📊 Ваш вклад в сохранение природы:</h4>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="result-icon">🧵</span>
+                        <span class="result-value" id="res-items">0</span>
+                        <span class="result-label">прихваток можно сшить</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-icon">💧</span>
+                        <span class="result-value" id="res-water">0</span>
+                        <span class="result-label">литров воды сбережено</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-icon">☁️</span>
+                        <span class="result-value" id="res-co2">0</span>
+                        <span class="result-label">кг CO₂ не попадёт в атмосферу</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        function showSection(id, btn) {
-            document.querySelectorAll('.content-section').forEach(function(s) {
-                s.classList.remove('active');
-            });
-            document.getElementById(id).classList.add('active');
+    <!-- ===================== РАЗДЕЛ 3 ===================== -->
+    <div id="sec3" class="content-section">
+        <h2>3. Технологии лоскутного шитья</h2>
 
-            document.querySelectorAll('.main-btn').forEach(function(b) {
-                b.classList.remove('active');
-            });
-            btn.classList.add('active');
-        }
+        <div class="sub-menu">
+            <button class="sub-btn active" onclick="showSub('sub1', this)">Колодец</button>
+            <button class="sub-btn" onclick="showSub('sub2', this)">Крейзи</button>
+            <button class="sub-btn" onclick="showSub('sub3', this)">Пицца</button>
+            <button class="sub-btn" onclick="showSub('sub4', this)">Роза йо-йо</button>
+            <button class="sub-btn" onclick="showSub('sub5', this)">Мэшвок</button>
+            <button class="sub-btn" onclick="showSub('sub6', this)">Аппликация</button>
+        </div>
 
-        function showSub(id, btn) {
-            var parent = btn.closest('.content-section');
-            parent.querySelectorAll('.sub-content').forEach(function(s) {
-                s.classList.remove('active');
-            });
-            parent.querySelectorAll('.sub-btn').forEach(function(b) {
-                b.classList.remove('active');
-            });
-            document.getElementById(id).classList.add('active');
-            btn.classList.add('active');
+        <div id="sub1" class="sub-content active">
+            <div class="layout-wrapper">
+                <div class="img-part"><img src="images/foto3.jpg" alt="Колодец"></div>
+                <div class="text-part">
+                    <h3>Техника «Колодец» («Бревенчатая изба»)</h3>
+                    <p>Сборка цветных полос-«брёвнышек» по кругу или спирали вокруг центрального квадрата. Сюда же относится геометрический блок «Кристалл».</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="sub2" class="sub-content">
+            <div class="layout-wrapper">
+                <div class="img-part"><img src="images/foto4.jpg" alt="Крейзи"></div>
+                <div class="text-part">
+                    <h3>Крейзи-пэчворк</h3>
+                    <p>Хаотичное сшивание мелких лоскутов неправильной формы. Пример — «Крейзи-роза», где элементы настрачиваются по спирали от центра.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="sub3" class="sub-content">
+            <div class="layout-wrapper">
+                <div class="img-part"><img src="images/foto5.jpg" alt="Пицца"></div>
+                <div class="text-part">
+                    <h3>Техника «Пицца»</h3>
+                    <p>Мелкие кривые обрезки хаотично выкладываются на основу, накрываются прозрачной тканью и скрепляются декоративными строчками.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="sub4" class="sub-content">
+            <div class="layout-wrapper">
+                <div class="img-part"><img src="images/foto6.jpg" alt="Роза йо-йо"></div>
+                <div class="text-part">
+                    <h3>Французская роза</h3>
+                    <p>Объёмный цветок в стиле йо-йо из округлых лоскутов, наложенных друг на друга по принципу пирамиды.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="sub5" class="sub-content">
+            <div class="layout-wrapper">
+                <div class="img-part"><img src="images/foto7.jpg" alt="Мэшвок"></div>
+                <div class="text-part">
+                    <h3>Мэшвок</h3>
+                    <p>Техника сшивания лоскутов в виде сетки (mesh). Позволяет создавать объёмные и рельефные узоры за счёт чередования ткани и фона.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="sub6" class="sub-content">
+            <div class="layout-wrapper">
+                <div class="img-part"><img src="images/foto8.jpg" alt="Аппликация"></div>
+                <div class="text-part">
+                    <h3>Аппликация</h3>
+                    <p>Нашивание вырезанных фигур на основу. Может быть плоской и объёмной, часто сочетается с другими техниками пэчворка.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- БЛОК: МИНИ-ИГРА -->
+        <div class="widget">
+            <h3>🎮 Мини-игра: Собери лоскутный блок</h3>
+            <p class="desc">Кликайте по лоскуткам ткани, чтобы поменять их местами и собрать правильный геометрический узор!</p>
+
+            <div class="game-layout">
+                <div class="game-block">
+                    <p>Образец узора:</p>
+                    <div class="preview-grid">
+                        <div class="fabric-piece p-red"></div>
+                        <div class="fabric-piece p-blue"></div>
+                        <div class="fabric-piece p-green"></div>
+                        <div class="fabric-piece p-yellow"></div>
+                    </div>
+                </div>
+
+                <div class="game-block">
+                    <p>Ваше поле:</p>
+                    <div id="game-board" class="game-board"></div>
+                </div>
+            </div>
+
+            <div id="win-message" class="win-message" style="display: none;">
+                🎉 Ура! Блок идеально собран! Вы прирождённый мастер пэчворка!
+            </div>
+
+            <div style="text-align:center;">
+                <button id="restart-game-btn" class="widget-btn">Перемешать заново</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- НИЖНЯЯ НАВИГАЦИЯ -->
+<div class="bottom-nav">
+    <div class="btn-grid">
+        <button class="main-btn active" onclick="showSection('sec1', this)">Автор и идея</button>
+        <button class="main-btn" onclick="showSection('sec2', this)">История</button>
+        <button class="main-btn" onclick="showSection('sec3', this)">Техники</button>
+    </div>
+</div>
+
+<script>
+/* =============== ВКЛАДКИ =============== */
+function showSection(id, btn) {
+    document.querySelectorAll('.content-section').forEach(function(s) {
+        s.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+
+    document.querySelectorAll('.main-btn').forEach(function(b) {
+        b.classList.remove('active');
+    });
+    btn.classList.add('active');
+}
+
+function showSub(id, btn) {
+    var parent = btn.closest('.content-section');
+    parent.querySelectorAll('.sub-content').forEach(function(s) {
+        s.classList.remove('active');
+    });
+    parent.querySelectorAll('.sub-btn').forEach(function(b) {
+        b.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+}
+
+/* =============== МИНИ-ИГРА =============== */
+(function () {
+    var COLORS = ['p-red', 'p-blue', 'p-green', 'p-yellow']; // правильный порядок
+    var board = document.getElementById('game-board');
+    var winMsg = document.getElementById('win-message');
+    var restartBtn = document.getElementById('restart-game-btn');
+    var selected = null;
+    var state = [];
+
+    function shuffle(arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = a[i]; a[i] = a[j]; a[j] = t;
         }
-    </script>
+        return a;
+    }
+
+    function render() {
+        board.innerHTML = '';
+        state.forEach(function (color, idx) {
+            var div = document.createElement('div');
+            div.className = 'fabric-piece ' + color;
+            div.dataset.idx = idx;
+            if (selected === idx) div.classList.add('selected');
+            div.addEventListener('click', function () { onClick(idx); });
+            board.appendChild(div);
+        });
+    }
+
+    function onClick(idx) {
+        if (selected === null) {
+            selected = idx;
+            render();
+        } else if (selected === idx) {
+            selected = null;
+            render();
+        } else {
+            var t = state[selected];
+            state[selected] = state[idx];
+            state[idx] = t;
+            selected = null;
+            render();
+            checkWin();
+        }
+    }
+
+    function checkWin() {
+        var isWin = state.every(function (c, i) { return c === COLORS[i]; });
+        winMsg.style.display = isWin ? 'block' : 'none';
+    }
+
+    function newGame() {
+        do {
+            state = shuffle(COLORS);
+        } while (state.every(function (c, i) { return c === COLORS[i]; }));
+        selected = null;
+        winMsg.style.display = 'none';
+        render();
+    }
+
+    restartBtn.addEventListener('click', newGame);
+    newGame();
+})();
+
+/* =============== ФОРМА =============== */
+(function () {
+    var form = document.getElementById('join-form');
+    var fileInput = document.getElementById('user-file');
+    var filePreview = document.getElementById('file-name-preview');
+    var successBox = document.getElementById('form-success-message');
+
+    fileInput.addEventListener('change', function () {
+        filePreview.textContent = this.files.length ? this.files[0].name : 'Файл не выбран';
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        successBox.style.display = 'block';
+        form.reset();
+        filePreview.textContent = 'Файл не выбран';
+        successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+})();
+
+/* =============== КАЛЬКУЛЯТОР =============== */
+(function () {
+    var btn = document.getElementById('calculate-btn');
+    var sel = document.getElementById('clothing-type');
+    var countInput = document.getElementById('clothing-count');
+    var results = document.getElementById('calc-results');
+    var resItems = document.getElementById('res-items');
+    var resWater = document.getElementById('res-water');
+    var resCo2 = document.getElementById('res-co2');
+
+    btn.addEventListener('click', function () {
+        var weightPerItem = parseInt(sel.value, 10) || 0;      // граммы
+        var count = parseInt(countInput.value, 10) || 0;        // штук
+        if (count < 1) { count = 1; countInput.value = 1; }
+        if (count > 100) { count = 100; countInput.value = 100; }
+
+        var totalGrams = weightPerItem * count;
+
+        // Прихватка ~ 30 г ткани
+        var items = Math.floor(totalGrams / 30);
+        // Вода: ~2700 л на 1 кг хлопка
+        var water = Math.round((totalGrams / 1000) * 2700);
+        // CO2: ~5.5 кг на 1 кг хлопка
+        var co2 = ((totalGrams / 1000) * 5.5).toFixed(1);
+
+        resItems.textContent = items;
+        resWater.textContent = water;
+        resCo2.textContent = co2;
+
+        results.style.display = 'block';
+    });
+})();
+</script>
 
 </body>
 </html>
