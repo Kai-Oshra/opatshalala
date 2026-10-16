@@ -100,38 +100,6 @@
     .widget h3 { margin-top: 0; color: #4a7a65; font-size: 16px; margin-bottom: 8px; }
     .widget .desc { font-size: 13px; color: #6b5a78; margin-bottom: 12px; }
 
-    /* ---------- ИГРА ---------- */
-    .game-layout { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around; align-items: center; }
-    .game-block { text-align: center; }
-    .game-block > p { font-size: 13px; color: #6b5a78; margin-bottom: 8px; text-align: center; }
-    .preview-grid, .game-board {
-        display: grid;
-        grid-template-columns: repeat(2, 80px);
-        grid-template-rows: repeat(2, 80px);
-        gap: 4px;
-        background: #eceff1;
-        padding: 6px;
-        border-radius: 8px;
-        margin: 0 auto;
-    }
-    .game-board { cursor: pointer; }
-    .fabric-piece { border-radius: 4px; }
-    .game-board .fabric-piece.selected { outline: 3px solid #e53935; outline-offset: -3px; }
-    .p-red { background: radial-gradient(circle, #ef5350 25%, transparent 26%), #b71c1c; background-size: 12px 12px; }
-    .p-blue { background: linear-gradient(45deg, #64b5f6 25%, #1565c0 25%, #1565c0 50%, #64b5f6 50%); background-size: 14px 14px; }
-    .p-green { background: #81c784; background-image: linear-gradient(to right, #2e7d32 1px, transparent 1px); background-size: 8px 8px; }
-    .p-yellow { background: radial-gradient(#fff176 15%, transparent 16%), #f9a825; background-size: 8px 8px; }
-
-    .win-message {
-        margin-top: 12px;
-        background: #d4f5e4;
-        color: #2f7a5a;
-        border-radius: 8px;
-        padding: 10px 12px;
-        font-size: 13px;
-        font-weight: bold;
-        text-align: center;
-    }
     .widget-btn {
         display: inline-block;
         margin-top: 12px;
@@ -175,12 +143,31 @@
         font-size: 14px;
     }
 
-    @media (max-width: 480px) {
-        .preview-grid, .game-board {
-            grid-template-columns: repeat(2, 65px);
-            grid-template-rows: repeat(2, 65px);
-        }
+    /* ---------- КАЛЬКУЛЯТОР ---------- */
+    .calc-form label { display: block; font-weight: bold; font-size: 13px; margin-bottom: 5px; color: #4a7a65; }
+    .calc-form select,
+    .calc-form input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cdeee0;
+        border-radius: 8px;
+        font-size: 14px;
+        margin-bottom: 12px;
+        font-family: inherit;
     }
+    .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 12px; }
+    .result-item {
+        background: #f6fdf9;
+        border-left: 4px solid #8fd9b6;
+        border-radius: 8px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .result-icon { font-size: 20px; }
+    .result-value { font-size: 20px; font-weight: bold; color: #2f7a5a; }
+    .result-label { font-size: 12px; color: #6b5a78; }
 </style>
 </head>
 <body>
@@ -253,6 +240,39 @@
                     <li><strong>Азербайджан:</strong> Самобытная техника <strong>«Гурама»</strong> (соединенный). Из кусков неправильной формы, подобно мозаике, сшивались коврики (гурма чий) и покрывала.</li>
                     <li><strong>Россия (XVIII в.):</strong> Массовое шитье одеял из фабричного ситца. Известно, что лоскутное одеяло в подарок мужу сшила даже жена Петра I, Екатерина.</li>
                 </ul>
+            </div>
+        </div>
+
+        <!-- БЛОК: КАЛЬКУЛЯТОР -->
+        <div class="widget">
+            <h3>🌱 Калькулятор эко-эффекта апсайклинга</h3>
+            <p class="desc">Узнайте, сколько прихваток можно сшить из ваших старых вещей!</p>
+
+            <div class="calc-form">
+                <label for="clothing-type">Выберите тип вещи:</label>
+                <select id="clothing-type">
+                    <option value="200" selected>Футболка / Рубашка (~200 г)</option>
+                    <option value="400">Толстовка / Свитшот (~400 г)</option>
+                    <option value="600">Джинсы / Брюки (~600 г)</option>
+                    <option value="150">Платье / Юбка (~150 г)</option>
+                    <option value="1000">Постельное белье / Простыня (~1000 г)</option>
+                </select>
+
+                <label for="clothing-count">Количество вещей (шт):</label>
+                <input type="number" id="clothing-count" value="1" min="1" max="100">
+
+                <button id="calculate-btn" class="widget-btn">Рассчитать эффект</button>
+            </div>
+
+            <div id="calc-results" style="display: none;">
+                <h4 style="margin-top: 15px; color:#4a7a65;">📊 Результат:</h4>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <span class="result-icon">🧵</span>
+                        <span class="result-value" id="res-items">0</span>
+                        <span class="result-label">прихваток можно сшить</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -329,37 +349,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- БЛОК: МИНИ-ИГРА -->
-        <div class="widget">
-            <h3>🎮 Мини-игра: Собери лоскутный блок</h3>
-            <p class="desc">Кликайте по лоскуткам ткани, чтобы поменять их местами и собрать правильный геометрический узор!</p>
-
-            <div class="game-layout">
-                <div class="game-block">
-                    <p>Образец узора:</p>
-                    <div class="preview-grid">
-                        <div class="fabric-piece p-red"></div>
-                        <div class="fabric-piece p-blue"></div>
-                        <div class="fabric-piece p-green"></div>
-                        <div class="fabric-piece p-yellow"></div>
-                    </div>
-                </div>
-
-                <div class="game-block">
-                    <p>Ваше поле:</p>
-                    <div id="game-board" class="game-board"></div>
-                </div>
-            </div>
-
-            <div id="win-message" class="win-message" style="display: none;">
-                🎉 Ура! Блок идеально собран! Вы прирождённый мастер пэчворка!
-            </div>
-
-            <div style="text-align:center;">
-                <button id="restart-game-btn" class="widget-btn">Перемешать заново</button>
-            </div>
-        </div>
     </div>
 
 </div>
@@ -399,71 +388,6 @@ function showSub(id, btn) {
     btn.classList.add('active');
 }
 
-/* =============== МИНИ-ИГРА =============== */
-(function () {
-    var COLORS = ['p-red', 'p-blue', 'p-green', 'p-yellow']; // правильный порядок
-    var board = document.getElementById('game-board');
-    var winMsg = document.getElementById('win-message');
-    var restartBtn = document.getElementById('restart-game-btn');
-    var selected = null;
-    var state = [];
-
-    function shuffle(arr) {
-        var a = arr.slice();
-        for (var i = a.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var t = a[i]; a[i] = a[j]; a[j] = t;
-        }
-        return a;
-    }
-
-    function render() {
-        board.innerHTML = '';
-        state.forEach(function (color, idx) {
-            var div = document.createElement('div');
-            div.className = 'fabric-piece ' + color;
-            div.dataset.idx = idx;
-            if (selected === idx) div.classList.add('selected');
-            div.addEventListener('click', function () { onClick(idx); });
-            board.appendChild(div);
-        });
-    }
-
-    function onClick(idx) {
-        if (selected === null) {
-            selected = idx;
-            render();
-        } else if (selected === idx) {
-            selected = null;
-            render();
-        } else {
-            var t = state[selected];
-            state[selected] = state[idx];
-            state[idx] = t;
-            selected = null;
-            render();
-            checkWin();
-        }
-    }
-
-    function checkWin() {
-        var isWin = state.every(function (c, i) { return c === COLORS[i]; });
-        winMsg.style.display = isWin ? 'block' : 'none';
-    }
-
-    function newGame() {
-        do {
-            state = shuffle(COLORS);
-        } while (state.every(function (c, i) { return c === COLORS[i]; }));
-        selected = null;
-        winMsg.style.display = 'none';
-        render();
-    }
-
-    restartBtn.addEventListener('click', newGame);
-    newGame();
-})();
-
 /* =============== ФОРМА =============== */
 (function () {
     var form = document.getElementById('join-form');
@@ -481,6 +405,30 @@ function showSub(id, btn) {
         form.reset();
         filePreview.textContent = 'Файл не выбран';
         successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+})();
+
+/* =============== КАЛЬКУЛЯТОР =============== */
+(function () {
+    var btn = document.getElementById('calculate-btn');
+    var sel = document.getElementById('clothing-type');
+    var countInput = document.getElementById('clothing-count');
+    var results = document.getElementById('calc-results');
+    var resItems = document.getElementById('res-items');
+
+    btn.addEventListener('click', function () {
+        var weightPerItem = parseInt(sel.value, 10) || 0;      // граммы
+        var count = parseInt(countInput.value, 10) || 0;        // штук
+        if (count < 1) { count = 1; countInput.value = 1; }
+        if (count > 100) { count = 100; countInput.value = 100; }
+
+        var totalGrams = weightPerItem * count;
+
+        // Прихватка ~ 30 г ткани
+        var items = Math.floor(totalGrams / 30);
+
+        resItems.textContent = items;
+        results.style.display = 'block';
     });
 })();
 </script>
