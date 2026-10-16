@@ -31,7 +31,6 @@
         }
         .content-section.active { display: block; }
 
-        /* Цвета для каждой вкладки */
         #sec1 { border-top-color: #f7c8d8; }
         #sec2 { border-top-color: #b8d8f0; }
         #sec3 { border-top-color: #b8e6cf; }
@@ -46,13 +45,14 @@
         ul { margin-left: 20px; margin-bottom: 10px; font-size: 14px; }
         li { margin-bottom: 5px; }
 
+        /* Картинка над текстом */
         .layout-wrapper { display: flex; flex-direction: column; gap: 15px; }
 
-        .text-part { flex: 1.2; }
-        .img-part { flex: 0.8; display: flex; justify-content: center; align-items: flex-start; }
-        .img-part img { width: 100%; max-width: 280px; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .img-part { display: flex; justify-content: center; align-items: flex-start; }
+        .img-part img { width: 100%; max-width: 320px; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
-        /* Подразделы */
+        .text-part { flex: 1; }
+
         .sub-menu { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; background: #f0faf5; padding: 6px; border-radius: 8px; }
         .sub-btn {
             flex: 1; min-width: 90px;
@@ -76,7 +76,6 @@
         }
         .sub-content.active { display: block; }
 
-        /* Нижняя навигация */
         .bottom-nav { background: white; padding: 12px; box-shadow: 0 -4px 10px rgba(0,0,0,0.06); position: sticky; bottom: 0; width: 100%; }
         .btn-grid { max-width: 500px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .main-btn {
@@ -89,45 +88,42 @@
             transition: 0.2s;
         }
 
-        /* Каждая кнопка — свой пастельный цвет в активном состоянии */
         .main-btn:nth-child(1).active { background: #f7c8d8; color: #7a3a55; }
         .main-btn:nth-child(2).active { background: #b8d8f0; color: #2f5f8f; }
         .main-btn:nth-child(3).active { background: #b8e6cf; color: #2f7a5a; }
-
-        @media (min-width: 600px) {
-            .layout-wrapper { flex-direction: row; }
-        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Пэчворк: наука для старта, идеи для мастерства</h1>
-        <p>Выполнила: Мамедова Шалала, 8В класс. Руководитель: Фомичева О. А.</p>
+        <p>Выполнила: Мамедова Шалала, 8Ж класс. Руководитель: Фомичева О. А.</p>
     </header>
 
     <div class="main-container">
 
-        <!-- РАЗДЕЛ 1: АВТОР И ИДЕЯ -->
+        <!-- РАЗДЕЛ 1 -->
         <div id="sec1" class="content-section active">
             <h2>1. Автор и идея проекта</h2>
             <div class="layout-wrapper">
-                <div class="text-part">
-                    <p><strong>Автор проекта:</strong> Меня зовут <strong>Мамедова Шалала</strong>, я ученица 8В класса. Данный сайт представляет мой творческий проект по технологии.</p>
-                    <p><strong>Как родился проект:</strong> К нам в школьной мастерской обратилась учитель технологии <strong>Фомичева О. А.</strong> После уроков скопилось много обрезков тканей, и мне захотелось решить эту проблему экологично — дать лоскуткам вторую жизнь.</p>
-                    <p><strong>Социальная цель и итог:</strong> В нашей школе принято дарить подарки мамам на праздник ко Дню матери. За два месяца я <strong>успешно сшила комплект из 70 уникальных прихваток-сувениров</strong> из остатков тканей! Мы вручим их родителям на празднике.</p>
-                    <p><strong>Суть темы:</strong> Простые базовые блоки из полос или квадратов — это понятная новичку <strong>«наука»</strong>. А сложные узоры и аппликации поверх них — творческие <strong>«идеи»</strong> для развития мастерства.</p>
-                </div>
                 <div class="img-part">
                     <img src="images/foto1.jpg" alt="Мамедова Шалала">
+                </div>
+                <div class="text-part">
+                    <p><strong>Автор проекта:</strong> Меня зовут <strong>Мамедова Шалала</strong>, я ученица 8Ж класса. Данный сайт представляет мой творческий проект по технологии.</p>
+                    <p><strong>Как родился проект:</strong> К нам в школьной мастерской обратилась учитель технологии <strong>Фомичева О. А.</strong> После уроков скопилось много обрезков тканей, и мне захотелось решить эту проблему экологично — дать лоскуткам вторую жизнь.</p>
+                    <p><strong>Социальная цель и итог:</strong> В нашей школе принято дарить подарки мамам на праздник ко Дню матери. За два месяца я <strong>успешно сшила комплект из 70 уникальных прихваток-сувениров</strong> из остатков тканей! Мы вручим их родителям на празднике.</p>
                 </div>
             </div>
         </div>
 
-        <!-- РАЗДЕЛ 2: ИСТОРИЯ ПЭЧВОРКА -->
+        <!-- РАЗДЕЛ 2 -->
         <div id="sec2" class="content-section">
             <h2>2. История пэчворка</h2>
             <div class="layout-wrapper">
+                <div class="img-part">
+                    <img src="images/foto2.jpg" alt="История лоскутного шитья">
+                </div>
                 <div class="text-part">
                     <p>Изначально лоскутное шитье во всех странах рождалось из бережливости и дефицита тканей, но со временем стало искусством:</p>
                     <ul>
@@ -136,15 +132,11 @@
                         <li><strong>Азербайджан:</strong> Самобытная техника <strong>«Гурама»</strong> (соединенный). Из кусков неправильной формы, подобно мозаике, сшивались коврики (гурма чий) и покрывала.</li>
                         <li><strong>Россия (XVIII в.):</strong> Массовое шитье одеял из фабричного ситца. Известно, что лоскутное одеяло в подарок мужу сшила даже жена Петра I, Екатерина.</li>
                     </ul>
-                    <p><strong>Экология:</strong> Переработка текстиля спасает планету от мусора. <em>Моя прихватка бережёт будущее — выбирай пэчворк, чтобы сохранить природу!</em></p>
-                </div>
-                <div class="img-part">
-                    <img src="images/foto2.jpg" alt="История лоскутного шитья">
                 </div>
             </div>
         </div>
 
-        <!-- РАЗДЕЛ 3: ТЕХНИКИ С ПОДРАЗДЕЛАМИ -->
+        <!-- РАЗДЕЛ 3 -->
         <div id="sec3" class="content-section">
             <h2>3. Технологии лоскутного шитья</h2>
 
@@ -159,68 +151,67 @@
 
             <div id="sub1" class="sub-content active">
                 <div class="layout-wrapper">
+                    <div class="img-part"><img src="images/foto3.jpg" alt="Колодец"></div>
                     <div class="text-part">
                         <h3>Техника «Колодец» («Бревенчатая изба»)</h3>
                         <p>Сборка цветных полос-«брёвнышек» по кругу или спирали вокруг центрального квадрата. Сюда же относится геометрический блок «Кристалл».</p>
                     </div>
-                    <div class="img-part"><img src="images/foto3.jpg" alt="Колодец"></div>
                 </div>
             </div>
 
             <div id="sub2" class="sub-content">
                 <div class="layout-wrapper">
+                    <div class="img-part"><img src="images/foto4.jpg" alt="Крейзи"></div>
                     <div class="text-part">
                         <h3>Крейзи-пэчворк</h3>
                         <p>Хаотичное сшивание мелких лоскутов неправильной формы. Пример — «Крейзи-роза», где элементы настрачиваются по спирали от центра.</p>
                     </div>
-                    <div class="img-part"><img src="images/foto4.jpg" alt="Крейзи"></div>
                 </div>
             </div>
 
             <div id="sub3" class="sub-content">
                 <div class="layout-wrapper">
+                    <div class="img-part"><img src="images/foto5.jpg" alt="Пицца"></div>
                     <div class="text-part">
                         <h3>Техника «Пицца»</h3>
                         <p>Мелкие кривые обрезки хаотично выкладываются на основу, накрываются прозрачной тканью и скрепляются декоративными строчками.</p>
                     </div>
-                    <div class="img-part"><img src="images/foto5.jpg" alt="Пицца"></div>
                 </div>
             </div>
 
             <div id="sub4" class="sub-content">
                 <div class="layout-wrapper">
+                    <div class="img-part"><img src="images/foto6.jpg" alt="Роза йо-йо"></div>
                     <div class="text-part">
                         <h3>Французская роза</h3>
                         <p>Объёмный цветок в стиле йо-йо из округлых лоскутов, наложенных друг на друга по принципу пирамиды.</p>
                     </div>
-                    <div class="img-part"><img src="images/foto6.jpg" alt="Роза йо-йо"></div>
                 </div>
             </div>
 
             <div id="sub5" class="sub-content">
                 <div class="layout-wrapper">
+                    <div class="img-part"><img src="images/foto7.jpg" alt="Мэшвок"></div>
                     <div class="text-part">
                         <h3>Мэшвок</h3>
                         <p>Техника сшивания лоскутов в виде сетки (mesh). Позволяет создавать объёмные и рельефные узоры за счёт чередования ткани и фона.</p>
                     </div>
-                    <div class="img-part"><img src="images/foto7.jpg" alt="Мэшвок"></div>
                 </div>
             </div>
 
             <div id="sub6" class="sub-content">
                 <div class="layout-wrapper">
+                    <div class="img-part"><img src="images/foto8.jpg" alt="Аппликация"></div>
                     <div class="text-part">
                         <h3>Аппликация</h3>
                         <p>Нашивание вырезанных фигур на основу. Может быть плоской и объёмной, часто сочетается с другими техниками пэчворка.</p>
                     </div>
-                    <div class="img-part"><img src="images/foto8.jpg" alt="Аппликация"></div>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- Нижняя навигация -->
     <div class="bottom-nav">
         <div class="btn-grid">
             <button class="main-btn active" onclick="showSection('sec1', this)">Автор и идея</button>
